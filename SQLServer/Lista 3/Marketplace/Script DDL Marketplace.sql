@@ -1,0 +1,73 @@
+-- DDL
+-- CREATE
+-- ALTER
+-- DROP
+
+
+CREATE DATABASE db_marketplace 
+GO
+
+CREATE TABLE Usuarios(
+	Id_Usuario INT PRIMARY KEY IDENTITY NOT NULL,
+	Nome VARCHAR(100) NOT NULL,
+	Login VARCHAR(50) NOT NULL,
+	Senha VARCHAR(100) NOT NULL,
+	Foto IMAGE NULL
+) 
+GO
+
+
+CREATE TABLE Categorias(
+	Id_Categoria INT PRIMARY KEY IDENTITY NOT NULL,
+	Descricao VARCHAR(100)
+)
+GO
+
+CREATE TABLE Produtos(
+	Id_Produtos INT PRIMARY KEY IDENTITY NOT NULL,
+	Nome VARCHAR(50) NOT NULL,
+	Preco REAL NOT NULL,
+	FK_Categoria INT NOT NULL,
+	FOREIGN KEY (FK_Categoria) REFERENCES Categorias (Id_Categoria)
+)
+GO
+
+CREATE TABLE TipoNegocio(
+Id_TipoNegocio INT PRIMARY KEY IDENTITY NOT NULL,
+Descricao VARCHAR(50) NOT NULL
+)
+GO
+
+CREATE TABLE Pedidos(
+	Id_Pedido INT PRIMARY KEY IDENTITY NOT NULL,
+	Quantidade DECIMAL(18,0) NOT NULL,
+	FK_Produtos INT NOT NULL,
+	FK_Usuario INT NOT NULL,
+	FK_TipoNegocio INT NOT NULL,
+	FOREIGN KEY (FK_Produtos) REFERENCES Produtos (Id_Produtos),
+	FOREIGN KEY (FK_Usuario) REFERENCES Usuarios (Id_Usuario),
+	FOREIGN KEY (FK_TipoNegocio) REFERENCES TipoNegocio (Id_TipoNegocio)
+)
+GO
+
+CREATE TABLE Endereco(
+Id_Endereco INT PRIMARY KEY IDENTITY NOT NULL,
+Logradouro VARCHAR(100) NOT NULL,
+Cidade VARCHAR(100) NOT NULL,
+Estado VARCHAR(50) NOT NULL,
+FK_Usuario INT NOT NULL,
+FOREIGN KEY (FK_Usuario) REFERENCES Usuarios (Id_Usuario)
+)
+GO
+
+CREATE TABLE Entrega(
+Id_Entrega INT PRIMARY KEY IDENTITY NOT NULL,
+Data_Entrega DATETIME NOT NULL,
+Status VARCHAR(50) NOT NULL,
+FK_Pedido INT NOT NULL,
+FOREIGN KEY (FK_Pedido) REFERENCES Pedidos (Id_Pedido)
+)
+GO
+
+--DROP DATABASE db_marketplace
+--GO
